@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>テトリス</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        #gameContainer {
+            display: none;
+            text-align: center;
+        }
+        canvas {
+            border: 1px solid #000;
+            background-color: #fff;
+            margin: 0 auto;
+            display: block;
+            touch-action: manipulation; /* タッチ操作のデフォルト動作を無効化 */
+        }
+        #score, #highScore, #timer, #controls, #difficulty {
+            font-size: 20px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #controls ul, #difficulty ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #controls li, #difficulty li {
+            margin: 5px 0;
+        }
+        #startButton {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin-top: 10px;
+        }
+        /* スコア強調表示のためのアニメーション */
+        @keyframes scoreFlash {
+            0% {
+                color: #fff700;
+                transform: scale(1);
+            }
+            50% {
+                color: #ff0000;
+                transform: scale(1.5);
+            }
+            100% {
+                color: #fff700;
+                transform: scale(1);
+            }
+        }
+        .flash {
+            animation: scoreFlash 0.5s ease;
+        }
+        /* ライン消去エフェクト用のスタイル */
+        .line-clear {
+            position: absolute;
+            width: 100%;
+            height: calc(var(--grid-size) * 1px);
+            background-color: rgba(255, 255, 255, 0.5);
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="difficulty">
+        <p><strong>難易度を選択してください:</strong></p>
+        <ul>
+            <li><input type="radio" name="level" value="1" id="level1" checked> <label for="level1">レベル1（ゆっくり）</label></li>
+            <li><input type="radio" name="level" value="2" id="level2"> <label for="level2">レベル2（徐々に速く）</label></li>
+            <li><input type="radio" name="level" value="3" id="level3"> <label for="level3">レベル鬼（最初から速い）</label></li>
+        </ul>
+        <button id="startButton">ゲーム開始</button>
+    </div>
+    <div id="gameContainer">
+        <canvas id="tetris"></canvas>
+        <div id="score">スコア: 0</div>
+        <div id="highScore">ハイスコア: 0</div>
+        <div id="timer">タイマー: 00分00秒</div>
+        <div id="controls">
+            <p><strong>操作方法:</strong></p>
+            <ul id="controlsList">
+                <!-- 操作方法は後で動的に設定 -->
+            </ul>
+        </div>
+    </div>
+    <script src="tetris.js"></script>
+</body>
+</html>
