@@ -13,18 +13,25 @@
         #gameContainer {
             display: none;
             text-align: center;
+            width: 100%;
+            height: 100vh; /* 高さを画面全体に設定 */
+            position: relative;
         }
         canvas {
-            border: 1px solid #000;
             background-color: #fff;
-            margin: 0 auto;
             display: block;
             touch-action: manipulation; /* タッチ操作のデフォルト動作を無効化 */
+            width: 100%; /* 幅を親要素にフィット */
+            height: 100%; /* 高さを親要素にフィット */
         }
         #score, #highScore, #timer, #controls, #difficulty {
             font-size: 20px;
             margin-top: 10px;
             text-align: center;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
         }
         #controls ul, #difficulty ul {
             list-style-type: none;
