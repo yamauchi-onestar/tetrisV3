@@ -28,21 +28,38 @@ function isMobile() {
 
 // キャンバスサイズとグリッドサイズの調整
 function resizeCanvas() {
+    const gameContainer = document.getElementById('gameContainer');
     if (isMobile()) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight * 0.7; // 上部に余白を残す
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+
+        canvas.width = viewportWidth;
+        canvas.height = viewportHeight;
+
         grid = canvas.width / 12; // 幅を12分割
+        context.scale(grid, grid);
+
+        // スケーリングのためにリセット
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.scale(grid, grid);
+
+        // ライン消去エフェクト用のCSS変数を更新
+        document.documentElement.style.setProperty('--grid-size', grid);
     } else {
         canvas.width = 240;
         canvas.height = 400;
         grid = 20;
+        context.scale(grid, grid);
+
+        // スケーリングのためにリセット
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.scale(grid, grid);
+
+        // ライン消去エフェクト用のCSS変数を更新
+        document.documentElement.style.setProperty('--grid-size', grid);
     }
-    context.scale(grid, grid);
 }
 resizeCanvas();
-
-// ライン消去エフェクト用のCSS変数を設定
-document.documentElement.style.setProperty('--grid-size', grid);
 
 // 以下、ゲームのロジックと関数はそのまま
 
