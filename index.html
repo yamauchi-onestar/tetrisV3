@@ -10,46 +10,42 @@
             padding: 0;
             overflow: hidden;
         }
+        #difficulty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            box-sizing: border-box;
+            padding-bottom: 100px; /* 操作説明分の余白 */
+        }
         #gameContainer {
             display: none;
-            text-align: center;
-            width: 100%;
             position: relative;
+            width: 100%;
+            height: calc(var(--vh, 1vh) * 100);
         }
         canvas {
             background-color: #fff;
             display: block;
             touch-action: manipulation;
             width: 100%; /* 親要素にフィット */
-            height: calc(var(--vh, 1vh) * 100); /* 実際の表示領域の高さを使用 */
+            height: 100%; /* 親要素にフィット */
         }
         #score, #highScore, #timer {
             font-size: 20px;
-            margin-top: 10px;
             text-align: center;
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
         }
-        #difficulty {
-            font-size: 20px;
-            margin-top: 10px;
-            text-align: center;
+        #score {
+            bottom: 60px; /* タイマーとの間隔を調整 */
         }
-        #controls {
-            font-size: 20px;
-            margin-top: 10px;
-            text-align: center;
-            margin-bottom: 10px; /* 下部に余白を追加 */
-        }
-        #controls ul, #difficulty ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        #controls li, #difficulty li {
-            margin: 5px 0;
-        }
-        #startButton {
-            font-size: 18px;
-            padding: 10px 20px;
-            margin-top: 10px;
+        #highScore {
+            bottom: 110px; /* スコアとの間隔を調整 */
         }
         /* スコア強調表示のためのアニメーション */
         @keyframes scoreFlash {
@@ -87,20 +83,20 @@
             <li><input type="radio" name="level" value="2" id="level2"> <label for="level2">レベル2（徐々に速く）</label></li>
             <li><input type="radio" name="level" value="3" id="level3"> <label for="level3">レベル鬼（最初から速い）</label></li>
         </ul>
+        <div id="controls">
+            <p><strong>操作方法:</strong></p>
+            <ul id="controlsList">
+                <!-- 操作方法は後で動的に設定 -->
+            </ul>
+        </div>
         <button id="startButton">ゲーム開始</button>
-    </div>
-    <div id="controls">
-        <p><strong>操作方法:</strong></p>
-        <ul id="controlsList">
-            <!-- 操作方法は後で動的に設定 -->
-        </ul>
     </div>
     <div id="gameContainer">
         <canvas id="tetris"></canvas>
+        <div id="score">スコア: 0</div>
+        <div id="highScore">ハイスコア: 0</div>
+        <div id="timer">タイマー: 00分00秒</div>
     </div>
-    <div id="score">スコア: 0</div>
-    <div id="highScore">ハイスコア: 0</div>
-    <div id="timer">タイマー: 00分00秒</div>
     <script src="tetris.js"></script>
     <script>
         // 実際のビューポートの高さを取得し、CSS変数に設定
