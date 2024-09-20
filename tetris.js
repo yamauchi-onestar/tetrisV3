@@ -28,35 +28,21 @@ function isMobile() {
 
 // キャンバスサイズとグリッドサイズの調整
 function resizeCanvas() {
-    if (isMobile()) {
-        const viewportWidth = window.innerWidth;
+    const gameContainer = document.getElementById('gameContainer');
+    const containerWidth = gameContainer.clientWidth;
+    const containerHeight = gameContainer.clientHeight;
 
-        // CSS変数から実際の高さを取得
-        const vh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vh')) * 100;
+    canvas.width = containerWidth;
+    canvas.height = containerHeight;
 
-        canvas.width = viewportWidth;
-        canvas.height = vh;
+    grid = canvas.width / 12; // 幅を12分割
 
-        grid = canvas.width / 12; // 幅を12分割
+    // スケーリングのリセットと再設定
+    context.setTransform(1, 0, 0, 1, 0, 0);
+    context.scale(grid, grid);
 
-        // スケーリングのリセットと再設定
-        context.setTransform(1, 0, 0, 1, 0, 0);
-        context.scale(grid, grid);
-
-        // ライン消去エフェクト用のCSS変数を更新
-        document.documentElement.style.setProperty('--grid-size', grid);
-    } else {
-        canvas.width = 240;
-        canvas.height = 400;
-        grid = 20;
-
-        // スケーリングのリセットと再設定
-        context.setTransform(1, 0, 0, 1, 0, 0);
-        context.scale(grid, grid);
-
-        // ライン消去エフェクト用のCSS変数を更新
-        document.documentElement.style.setProperty('--grid-size', grid);
-    }
+    // ライン消去エフェクト用のCSS変数を更新
+    document.documentElement.style.setProperty('--grid-size', grid);
 }
 resizeCanvas();
 
@@ -126,11 +112,15 @@ function arenaSweep() {
 function showLineClearEffect(row) {
     const effect = document.createElement('div');
     effect.classList.add('line-clear');
+
     const canvasRect = canvas.getBoundingClientRect();
-    effect.style.top = (canvasRect.top + row * (canvasRect.height / arenaHeight)) + 'px';
+    const lineHeight = canvasRect.height / arenaHeight;
+
+    effect.style.top = (canvasRect.top + row * lineHeight) + 'px';
     effect.style.left = canvasRect.left + 'px';
     effect.style.width = canvasRect.width + 'px';
-    effect.style.height = (canvasRect.height / arenaHeight) + 'px';
+    effect.style.height = lineHeight + 'px';
+
     document.body.appendChild(effect);
     setTimeout(() => {
         document.body.removeChild(effect);
