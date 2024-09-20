@@ -28,18 +28,18 @@ function isMobile() {
 
 // キャンバスサイズとグリッドサイズの調整
 function resizeCanvas() {
-    const gameContainer = document.getElementById('gameContainer');
     if (isMobile()) {
-        const viewportHeight = window.innerHeight;
         const viewportWidth = window.innerWidth;
 
+        // CSS変数から実際の高さを取得
+        const vh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vh')) * 100;
+
         canvas.width = viewportWidth;
-        canvas.height = viewportHeight;
+        canvas.height = vh;
 
         grid = canvas.width / 12; // 幅を12分割
-        context.scale(grid, grid);
 
-        // スケーリングのためにリセット
+        // スケーリングのリセットと再設定
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.scale(grid, grid);
 
@@ -49,9 +49,8 @@ function resizeCanvas() {
         canvas.width = 240;
         canvas.height = 400;
         grid = 20;
-        context.scale(grid, grid);
 
-        // スケーリングのためにリセット
+        // スケーリングのリセットと再設定
         context.setTransform(1, 0, 0, 1, 0, 0);
         context.scale(grid, grid);
 
@@ -61,7 +60,13 @@ function resizeCanvas() {
 }
 resizeCanvas();
 
-// 以下、ゲームのロジックと関数はそのまま
+// ウィンドウリサイズ時にキャンバスを再調整
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    // ゲーム要素の再描画が必要な場合はここで対応
+});
+
+// 以下、ゲームのロジックと関数
 
 function arenaSweep() {
     let linesCleared = 0;
@@ -511,6 +516,9 @@ document.getElementById('startButton').addEventListener('click', () => {
     // 難易度選択画面を非表示にし、ゲームを表示
     document.getElementById('difficulty').style.display = 'none';
     document.getElementById('gameContainer').style.display = 'block';
+    document.getElementById('score').style.display = 'block';
+    document.getElementById('highScore').style.display = 'block';
+    document.getElementById('timer').style.display = 'block';
     startGame();
 });
 
@@ -523,9 +531,3 @@ function startGame() {
     updateTimer();
     update();
 }
-
-// ウィンドウリサイズ時にキャンバスを再調整
-window.addEventListener('resize', () => {
-    resizeCanvas();
-    // ゲーム要素の再描画が必要な場合はここで対応
-});
